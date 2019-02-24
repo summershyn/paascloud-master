@@ -1,0 +1,25 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3.6-management
+    container_name: rabbit_node0
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+  mysql:
+    image: mysql:5.7.21
+    container_name: my_mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: paascloud_mdc
+      MYSQL_ROOT_PASSWORD: 123456 #root管理员用户密码
+      MYSQL_USER: test   #创建test用户
+      MYSQL_PASSWORD: 123456  #设置test用户的密码
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
